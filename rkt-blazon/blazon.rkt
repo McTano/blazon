@@ -5,10 +5,7 @@
 (define WIDTH 200)
 (define HEIGHT 200)
 
-;;  field is one-of:
-;; -tincture
-;; (field->field Field)
-;; (on Field (listof Charge))
+;;  Shield declaration:
 
 (define-type Shield
   (Field (tinc image-color?))
@@ -22,10 +19,13 @@
   (Quarterly (1st Shield?) (2nd Shield?)
              (3rd Shield?) (4th Shield?)))
 
+;; Charge declaration
 (define-type Charge
   (Figure (name string?) (tinc image-color?)))
 
-;; Tincture is one-of:
+;; Tincture aliases
+;; currently tincture is not a type
+;; will be needed when we can draw furs
 (define or "yellow")
 (define gules "red")
 (define azure "blue")
@@ -33,13 +33,8 @@
 (define argent "white")
 (define purpure "purple")
 
-
-;(define-type Tincture
-; (tincture (name string?)))
-(define (tincture str)
-  (square HEIGHT "solid" str))
-
-
+;; Dimensions type used to keep track of
+;; size of sub-shields
 (define-type Dimensions
   (dim (width real?) (height real?) (font-size real?)))
 
@@ -102,66 +97,24 @@
                               (Per-Pale IRELAND QUEBEC)
                               MAPLE-LEAVES))
 
+;(define (top-half image)
+;  (scale/xy 1 2 (crop 0
+;        0
+;        (image-width image)
+;        (/ (image-width image) 2)
+;        image)))
 
+;(define (bottom-half image)
+;  (scale/xy 1 2 (crop 0
+;        (/ (image-height image) 2)
+;        (image-width image)
+;        (/ (image-height image) 2)
+;        image)))
 
-(define OR (tincture "yellow"))
-(define GULES (tincture "red"))
-(define AZURE (tincture "blue"))
-(define SABLE (tincture "black"))
-(define ARGENT (tincture "white"))
-(define PURPURE (tincture "purple"))
-
-
-(define (per-fess top-color bottom-color)
-  (above (scale/xy 1 1/2 top-color)
-         (scale/xy 1 1/2 bottom-color)))
-
-(define (per-pale top-color bottom-color)
-  (beside (scale/xy 1/2 1 top-color)
-         (scale/xy 1/2 1 bottom-color)))
-
-(define (quartered first second third fourth)
-  [per-fess (per-pale first second)
-            (per-pale third fourth)]
-  )
-
-(define quarterly quartered)
-
-(define (top-half image)
-  (scale/xy 1 2 (crop 0
-        0
-        (image-width image)
-        (/ (image-width image) 2)
-        image)))
-
-(define (bottom-half image)
-  (scale/xy 1 2 (crop 0
-        (/ (image-height image) 2)
-        (image-width image)
-        (/ (image-height image) 2)
-        image)))
-
-(define (the-first-and-second-containing field)
-  (list (top-half field)
-        (bottom-half field)))
-
-
-; (per-fess ARGENT AZURE)
-
-; (quartered SABLE AZURE PURPURE ARGENT)
-
-(define (tierced-in-fess first second third)
-  (above (scale/xy 1 1/3 first)
-         (scale/xy 1 1/3 second)
-         (scale/xy 1 1/3 third)))
-
-(define CANADA (apply tierced-in-fess
-                (append (the-first-and-second-containing
-                 (quarterly GULES OR AZURE PURPURE))
-                 (list ARGENT))))
-
-CANADA
-
-(define (a charge) charge)
-(define (two charge) (list charge charge))
-(define (three charge) (list charge charge charge))
+;(define (the-first-and-second-containing field)
+;  (list (top-half field)
+;        (bottom-half field)))
+;;
+;(define (a charge) charge)
+;(define (two charge) (list charge charge))
+;(define (three charge) (list charge charge charge))
