@@ -1,0 +1,19 @@
+Blazonry
+
+EBNF syntax:
+
+<blazon> ::=   <field> <charge>*
+
+<field>  ::=   	   <tincture>
+				|  <division>
+				|  <marshalling>
+
+<charge> ::=       <ordinary> <modifiers>* <tincture>
+				|  <figure> <modifiers>* <tincture>
+				|  ineschuteon <blazon>
+
+<ordinary> :: =  	oneof ...
+<figure>   :: =  	oneof ...
+<tincture> :: =  	oneof ...
+<division> :: =  	per <ordinary> <tincture> and <tincture>
+			      | 
